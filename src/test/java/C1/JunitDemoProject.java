@@ -2,6 +2,7 @@ package C1;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -41,9 +42,9 @@ public class JunitDemoProject {
     }
 
     @Test
-    public void getTitle() throws InterruptedException {
+    public void getTitle() {
         driver.get("https://demoqa.com");
-        String title=driver.getTitle();
+        String title = driver.getTitle();
         System.out.println(title);
         Assert.assertTrue(title.contains("ToolsQA"));
     }
@@ -58,31 +59,31 @@ public class JunitDemoProject {
     }
 
     @Test
-    public void textBox(){
+    public void textBox() {
         driver.get("https://demoqa.com/elements");
         driver.findElement(By.xpath("//span[contains(text(),'Text Box')]")).click();
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("[id=userName]"))).sendKeys("Zubair");
         driver.findElement(By.xpath("//button[@id='submit']")).click();
-        String text= driver.findElement(By.cssSelector("[id=name]")).getText();
+        String text = driver.findElement(By.cssSelector("[id=name]")).getText();
         Assert.assertTrue(text.contains("Zubair"));
     }
 
     @Test
-    public void mouseClickButtons(){
+    public void mouseClickButtons() {
         driver.get("https://demoqa.com/buttons");
         Actions action = new Actions(driver);
-        List<WebElement> list= driver.findElements(By.cssSelector("button"));
+        List<WebElement> list = driver.findElements(By.cssSelector("button"));
         action.doubleClick(list.get(1)).perform();
-        String text= driver.findElement(By.id("doubleClickMessage")).getText();
+        String text = driver.findElement(By.id("doubleClickMessage")).getText();
         Assert.assertTrue(text.contains("You have done a double click"));
 
         action.contextClick(list.get(2)).perform();
-        String text2= driver.findElement(By.id("rightClickMessage")).getText();
+        String text2 = driver.findElement(By.id("rightClickMessage")).getText();
         Assert.assertTrue(text2.contains("You have done a right click"));
 
         list.get(3).click();
-        String text3= driver.findElement(By.id("dynamicClickMessage")).getText();
+        String text3 = driver.findElement(By.id("dynamicClickMessage")).getText();
         Assert.assertTrue(text3.contains("You have done a dynamic click"));
 
     }
@@ -97,13 +98,13 @@ public class JunitDemoProject {
         driver.switchTo().alert().sendKeys("Zubair");
         sleep(2000);
         driver.switchTo().alert().accept();
-        String text= driver.findElement(By.id("promptResult")).getText();
+        String text = driver.findElement(By.id("promptResult")).getText();
         Assert.assertTrue(text.contains("Zubair"));
 
     }
 
     @Test
-    public void datePicker(){
+    public void datePicker() {
         driver.get("https://demoqa.com/date-picker");
         driver.findElement(By.id("datePickerMonthYearInput")).clear();
         driver.findElement(By.id("datePickerMonthYearInput")).sendKeys("05/08/1993");
@@ -112,11 +113,11 @@ public class JunitDemoProject {
     }
 
     @Test
-    public void selectDropdown(){
+    public void selectDropdown() {
         driver.get("https://demoqa.com/select-menu");
-        Select color=new Select(driver.findElement(By.id("oldSelectMenu")));
+        Select color = new Select(driver.findElement(By.id("oldSelectMenu")));
         color.selectByValue("1");
-        Select cars=new Select(driver.findElement(By.id("cars")));
+        Select cars = new Select(driver.findElement(By.id("cars")));
         if (cars.isMultiple()) {
             cars.selectByValue("volvo");
             cars.selectByValue("audi");
@@ -134,13 +135,13 @@ public class JunitDemoProject {
         System.out.println("New tab title: " + driver.getTitle());
 
         Boolean status = driver.findElement(By.xpath("//img[@src='/images/Toolsqa.jpg']")).isDisplayed();
-        Assert.assertEquals(true,status);
+        Assert.assertEquals(true, status);
         driver.close();
         driver.switchTo().window(w.get(0));
     }
 
     @Test
-    public void windowHandler(){
+    public void windowHandler() {
         driver.get("https://demoqa.com/browser-windows");
 
         driver.findElement(By.id(("windowButton"))).click();
@@ -152,7 +153,7 @@ public class JunitDemoProject {
             String ChildWindow = iterator.next();
             if (!mainWindowHandle.equalsIgnoreCase(ChildWindow)) {
                 driver.switchTo().window(ChildWindow);
-                String text= driver.findElement(By.id("sampleHeading")).getText();
+                String text = driver.findElement(By.id("sampleHeading")).getText();
                 Assert.assertTrue(text.contains("This is a sample page"));
             }
 
@@ -160,7 +161,7 @@ public class JunitDemoProject {
     }
 
     @Test
-    public void modalDialogHandler(){
+    public void modalDialogHandler() {
 
         driver.get("https://demoqa.com/modal-dialogs");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -171,7 +172,7 @@ public class JunitDemoProject {
     }
 
     @Test
-    public void webTables(){
+    public void webTables() {
         driver.get("https://demoqa.com/webtables");
         driver.findElement(By.xpath("//span[@id='edit-record-1']//*[@stroke='currentColor']")).click();
         driver.findElement(By.id("submit")).click();
@@ -179,28 +180,28 @@ public class JunitDemoProject {
     }
 
     @Test
-    public void scrapeData(){
+    public void scrapeData() {
         driver.get("https://demoqa.com/webtables");
         WebElement table = driver.findElement(By.className("rt-tbody"));
         List<WebElement> allRows = table.findElements(By.className("rt-tr"));
-        int i=0;
+        int i = 0;
         for (WebElement row : allRows) {
             List<WebElement> cells = row.findElements(By.className("rt-td"));
             for (WebElement cell : cells) {
                 i++;
-                System.out.println("num["+i+"] "+ cell.getText());
+                System.out.println("num[" + i + "] " + cell.getText());
 
             }
         }
     }
 
     @Test
-    public void imageUploader(){
+    public void imageUploader() {
         driver.get("https://demoqa.com/upload-download");
         WebElement uploadElement = driver.findElement(By.id("uploadFile"));
         uploadElement.sendKeys("C:\\Users\\DevPC\\Downloads\\img-1.jpg");
 
-        String text= driver.findElement(By.id("uploadedFilePath")).getText();
+        String text = driver.findElement(By.id("uploadedFilePath")).getText();
         Assert.assertTrue(text.contains("img-1.jpg"));
     }
 
@@ -230,27 +231,28 @@ public class JunitDemoProject {
     @Test
     public void takeScreenShot() throws IOException {
         driver.get("https://demoqa.com");
-        File screenshotFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        File screenshotFile = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
         String time = new SimpleDateFormat("dd-MM-yyyy-hh-mm-ss-aa").format(new Date());
         String fileWithPath = "./src/test/resources/screenshots/" + time + ".png";
         File DestFile = new File(fileWithPath);
         FileUtils.copyFile(screenshotFile, DestFile);
     }
 
-    public static void readFromExcel(String filePath,String fileName,String sheetName) throws IOException {
-        File file = new File(filePath+"\\"+fileName);
+    public static void readFromExcel(String filePath, String fileName, String sheetName) throws IOException {
+        File file = new File(filePath + "\\" + fileName);
         FileInputStream inputStream = new FileInputStream(file);
         Workbook workbook = null;
         String fileExtensionName = fileName.substring(fileName.indexOf("."));
-        if(fileExtensionName.equals(".xls")){
+        if (fileExtensionName.equals(".xls")) {
             workbook = new HSSFWorkbook(inputStream);
         }
         Sheet sheet = workbook.getSheet(sheetName);
-        int rowCount = sheet.getLastRowNum()-sheet.getFirstRowNum();
-        for (int i = 0; i < rowCount+1; i++) {
+        int rowCount = sheet.getLastRowNum() - sheet.getFirstRowNum();
+        for (int i = 0; i < rowCount + 1; i++) {
             Row row = sheet.getRow(i);
             for (int j = 0; j < row.getLastCellNum(); j++) {
-                System.out.print((row.getCell(j).getStringCellValue()) +" || ");
+                DataFormatter formatter = new DataFormatter();
+                System.out.print((formatter.formatCellValue(row.getCell(j)) + " || "));
             }
             System.out.println();
         }
