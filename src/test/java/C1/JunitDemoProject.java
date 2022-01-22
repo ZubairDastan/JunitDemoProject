@@ -26,7 +26,7 @@ import java.util.*;
 
 import static java.lang.Thread.sleep;
 
-public class TestTitleImage {
+public class JunitDemoProject {
     WebDriver driver;
 
     @Before
